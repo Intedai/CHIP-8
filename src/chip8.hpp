@@ -57,6 +57,9 @@ class Chip8
 
     public:
         Chip8(std::string_view fileName);
+
+        // Opcode handle functions
+        void clear();
 };
 
 #endif
