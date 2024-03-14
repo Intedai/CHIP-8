@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <filesystem>
+#include "globals.hpp"
 
 constexpr int WIDTH = 64;
 constexpr int HEIGHT = 32;
@@ -54,12 +55,20 @@ class Chip8
     
         void loadGame(std::string_view fileName);
         void fetchOpcode();
+        void updateTimers();
 
     public:
         Chip8(std::string_view fileName);
 
         // Opcode handle functions
         void clear();
+        void mov_vxvy();
+        void or_vxvy();
+        void and_vxvy();
+        void xor_vxvy();
+        void mov_vxnn();
+        void mvi_nnn();
+
 };
 
 #endif

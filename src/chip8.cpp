@@ -16,6 +16,16 @@ Chip8::Chip8(std::string_view fileName)
 {
 }
 
+void Chip8::updateTimers()
+{
+    if (delayTimer > 0)
+        --delayTimer;
+
+    if (soundTimer > 0)
+    {
+        --soundTimer;
+    }    
+}
 
 void Chip8::loadGame(std::string_view fileName)
 {
