@@ -68,6 +68,15 @@ class Chip8
         void xor_vxvy();
         void mov_vxnn();
         void mvi_nnn();
+        
+        void rand_vxnn();
+        void jump_nnn();        
+        void jump0_nnn();
+        void sdelay_vx();
+        void ssound_vx();
+        void gdelay_vx();
+
+
 
 };
 
