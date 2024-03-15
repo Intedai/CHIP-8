@@ -56,6 +56,8 @@ class Chip8
         void loadGame(std::string_view fileName);
         void fetchOpcode();
         void updateTimers();
+        void nextInstruction();
+        void skipInstruction();
 
     public:
         Chip8(std::string_view fileName);
@@ -76,7 +78,10 @@ class Chip8
         void ssound_vx();
         void gdelay_vx();
 
-
+        void ifVxNotEqualsNN();
+        void ifVxEqualsNN();
+        void ifVxNotEqualsVy();
+        void ifVxEqualsVy();
 
 };
 

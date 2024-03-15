@@ -16,6 +16,16 @@ Chip8::Chip8(std::string_view fileName)
 {
 }
 
+void Chip8::nextInstruction()
+{
+    pc += 2;
+}
+
+void Chip8::skipInstruction()
+{
+    pc += 4;
+}
+
 void Chip8::updateTimers()
 {
     if (delayTimer > 0)
