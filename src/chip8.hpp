@@ -64,24 +64,28 @@ class Chip8
 
         // Opcode handle functions
         void clear();
-        void mov_vxvy();
-        void or_vxvy();
-        void and_vxvy();
-        void xor_vxvy();
-        void mov_vxnn();
-        void mvi_nnn();
-        
-        void rand_vxnn();
-        void jump_nnn();        
-        void jump0_nnn();
-        void sdelay_vx();
-        void ssound_vx();
-        void gdelay_vx();
-
-        void ifVxNotEqualsNN();
-        void ifVxEqualsNN();
-        void ifVxNotEqualsVy();
-        void ifVxEqualsVy();
+        void mov_vxvy(size_t x, size_t y);
+        void xor_vxvy(size_t x, size_t y);
+        void or_vxvy(size_t x, size_t y);
+        void and_vxvy(size_t x, size_t y);
+        void mov_vxnn(size_t x, uint8_t nn);
+        void mvi_nnn(uint16_t nnn);
+        void sdelay_vx(size_t x);
+        void ssound_vx(size_t x);
+        void gdelay_vx(size_t x);
+        void jump_nnn(uint16_t nnn);
+        void jump0_nnn(uint16_t nnn);
+        void rand_vxnn(size_t x, uint8_t nn);
+        void ifVxNotEqualsNN(size_t x, uint8_t nn);
+        void ifVxEqualsNN(size_t x, uint8_t nn);
+        void ifVxNotEqualsVy(size_t x, size_t y);
+        void ifVxEqualsVy(size_t x, size_t y);
+        void add_vxvy(size_t x, size_t y);
+        void add_vxnn(size_t x, uint8_t nn);
+        void add_ivx(size_t x);
+        void sub_vxvy(size_t x, size_t y);
+        void nsub_vxvy(size_t x, size_t y);
+        void bcd(size_t x);
 
 };
 

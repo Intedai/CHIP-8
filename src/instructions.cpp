@@ -12,109 +12,83 @@ void Chip8::clear()
 }
 
 //8xy0
-void Chip8::mov_vxvy()
+void Chip8::mov_vxvy(size_t x, size_t y)
 {
-    size_t x = (opcode & 0x0F00) >> (NIBBLE_SIZE * 2);
-    size_t y = (opcode & 0x00F0) >> NIBBLE_SIZE;
-
     V[x] = V[y];
     nextInstruction();
 }
 
 //8xy3
-void Chip8::xor_vxvy()
-{
-    size_t x = (opcode & 0x0F00) >> (NIBBLE_SIZE * 2);
-    size_t y = (opcode & 0x00F0) >> NIBBLE_SIZE;
-    
+void Chip8::xor_vxvy(size_t x, size_t y)
+{    
     V[x] ^=  V[y];
     nextInstruction();
 }
 
 //8xy1
-void Chip8::or_vxvy()
-{
-    size_t x = (opcode & 0x0F00) >> (NIBBLE_SIZE * 2);
-    size_t y = (opcode & 0x00F0) >> NIBBLE_SIZE;
-    
+void Chip8::or_vxvy(size_t x, size_t y)
+{    
     V[x] |=  V[y];
     nextInstruction();
 }
 
 //8xy2
-void Chip8::and_vxvy()
+void Chip8::and_vxvy(size_t x, size_t y)
 {
-    size_t x = (opcode & 0x0F00) >> (NIBBLE_SIZE * 2);
-    size_t y = (opcode & 0x00F0) >> NIBBLE_SIZE;
-    
     V[x] &=  V[y];
     nextInstruction();
 }
 
 //6xnn
-void Chip8::mov_vxnn()
+void Chip8::mov_vxnn(size_t x, uint8_t nn)
 {
-    size_t x = (opcode & 0x0F00) >> (NIBBLE_SIZE * 2);
-    uint8_t nn = opcode & 0x00FF;
-    
     V[x] += nn;
     nextInstruction();
 }
 
 //Annn
-void Chip8::mvi_nnn()
+void Chip8::mvi_nnn(uint16_t nnn)
 {
-    I = opcode & 0x0FFF;
+    I = nnn;
     nextInstruction();
 }
 
 //Fx15
-void Chip8::sdelay_vx()
+void Chip8::sdelay_vx(size_t x)
 {
-    size_t x = (opcode & 0x0F00) >> (NIBBLE_SIZE * 2);
-
     delayTimer = V[x];
     nextInstruction();
 }
 
 //Fx18
-void Chip8::ssound_vx()
+void Chip8::ssound_vx(size_t x)
 {
-    size_t x = (opcode & 0x0F00) >> (NIBBLE_SIZE * 2);
-
     soundTimer = V[x];
     nextInstruction();
 }
 
 //Fx07
-void Chip8::gdelay_vx()
+void Chip8::gdelay_vx(size_t x)
 {
-    size_t x = (opcode & 0x0F00) >> (NIBBLE_SIZE * 2);
-
     V[x] = delayTimer;
     nextInstruction();
 }
 
 //1nnn
-void Chip8::jump_nnn()
+void Chip8::jump_nnn(uint16_t nnn)
 {
-    uint16_t nnn = opcode & 0x0FFF;
     pc = nnn;
 }
 
 //Bnnn
-void Chip8::jump0_nnn()
+void Chip8::jump0_nnn(uint16_t nnn)
 {
-    uint16_t nnn = opcode & 0x0FFF;
     pc = nnn + V[0];
 }
 
 //Cxnn
-void Chip8::rand_vxnn()
+void Chip8::rand_vxnn(size_t x, uint8_t nn)
 {
-    size_t x = (opcode & 0x0F00) >> (NIBBLE_SIZE * 2);
-    uint8_t nn = opcode & 0x00FF;
-
     // Static to initialize once instead of every call
     static std::random_device rd;
     static std::mt19937 eng(rd());
@@ -129,11 +103,8 @@ void Chip8::rand_vxnn()
 }
 
 //3xnn
-void Chip8::ifVxNotEqualsNN()
+void Chip8::ifVxNotEqualsNN(size_t x, uint8_t nn)
 {
-    size_t x = (opcode & 0x0F00) >> (NIBBLE_SIZE * 2);
-    uint8_t nn = opcode & 0x00FF;
-
     if(V[x] != nn)
         nextInstruction();
     else
@@ -141,11 +112,8 @@ void Chip8::ifVxNotEqualsNN()
 }
 
 //4xnn
-void Chip8::ifVxEqualsNN()
+void Chip8::ifVxEqualsNN(size_t x, uint8_t nn)
 {
-    size_t x = (opcode & 0x0F00) >> (NIBBLE_SIZE * 2);
-    uint8_t nn = opcode & 0x00FF;
-
     if(V[x] == nn)
         nextInstruction();
     else
@@ -153,12 +121,8 @@ void Chip8::ifVxEqualsNN()
 }
 
 //5xy0
-void Chip8::ifVxNotEqualsVy()
+void Chip8::ifVxNotEqualsVy(size_t x, size_t y)
 {
-    size_t x = (opcode & 0x0F00) >> (NIBBLE_SIZE * 2);
-    size_t y = (opcode & 0x00F0) >> NIBBLE_SIZE;
-
-
     if(V[x] != V[y])
         nextInstruction();
     else
@@ -166,15 +130,70 @@ void Chip8::ifVxNotEqualsVy()
 }
 
 //9xy0
-void Chip8::ifVxEqualsVy()
+void Chip8::ifVxEqualsVy(size_t x ,size_t y)
 {
-    size_t x = (opcode & 0x0F00) >> (NIBBLE_SIZE * 2);
-    size_t y = (opcode & 0x00F0) >> NIBBLE_SIZE;
-
-
     if(V[x] == V[y])
         nextInstruction();
     else
         skipInstruction();
 }
 
+//8xy4
+void Chip8::add_vxvy(size_t x, size_t y)
+{
+    const int sum = V[x] + V[y];
+    V[x] = static_cast<uint8_t>(sum);
+    
+    // Smallest overflow is 0xFF + 0x1 = 0x100 and biggest overflow is 0xFF + 0xFF= 0x1FE
+    V[0xF] = static_cast<uint8_t>(sum >> BYTE_SIZE);
+    
+    nextInstruction();
+}
+
+//7xnn
+void Chip8::add_vxnn(size_t x, uint8_t nn)
+{
+    V[x] += nn;
+    nextInstruction();
+}
+
+//Fx1E
+void Chip8::add_ivx(size_t x)
+{
+    I += V[x];
+    nextInstruction();
+}
+
+//8xy5
+void Chip8::sub_vxvy(size_t x, size_t y)
+{
+    const int flag = V[x] >= V[y];
+
+    V[x] -= V[y];
+
+    V[0xF] = flag;
+    
+    nextInstruction();
+}
+
+//8xy7
+void Chip8::nsub_vxvy(size_t x, size_t y)
+{
+    const int flag = V[y] >= V[x];
+
+    V[x] = V[y] - V[x];
+    
+    V[0xF] = flag;
+    
+    nextInstruction();
+}
+
+//Fx33
+void Chip8::bcd(size_t x)
+{
+    memory[I] = V[x] / 100;
+    memory[I + 1] = (V[x] / 10) % 10;
+    memory[I + 2] = V[x] % 10;
+
+    nextInstruction();
+}
