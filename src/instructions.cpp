@@ -1,6 +1,7 @@
 #include "instructions.hpp"
 
 //TODO: make a friend class of chip8 called instructions and restructure
+//TODO: Remove next instruction to
 
 //00E0
 void Chip8::clear()
@@ -215,3 +216,18 @@ void Chip8::leftShift(size_t x, size_t y)
     V[0xF] = leftBit;
     nextInstruction();
 }
+
+//2NNN
+void Chip8::callNNN(uint16_t nnn)
+{
+    stack[sp++ & 0xF] = pc;
+    pc = nnn;
+}
+
+//00EE
+void Chip8::returnFromSub()
+{
+    pc = stack[--sp & 0xF];
+    nextInstruction();
+}
+

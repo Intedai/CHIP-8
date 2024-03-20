@@ -88,6 +88,9 @@ class Chip8
         void bcd(size_t x);
         void rightShift(size_t x, size_t y);
         void leftShift(size_t x, size_t y);
+        void callNNN(uint16_t nnn);
+        void returnFromSub();
+
 
 
 };
