@@ -86,6 +86,9 @@ class Chip8
         void sub_vxvy(size_t x, size_t y);
         void nsub_vxvy(size_t x, size_t y);
         void bcd(size_t x);
+        void rightShift(size_t x, size_t y);
+        void leftShift(size_t x, size_t y);
+
 
 };
 

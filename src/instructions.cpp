@@ -197,3 +197,19 @@ void Chip8::bcd(size_t x)
 
     nextInstruction();
 }
+
+//8xy6
+void Chip8::rightShift(size_t x, size_t y)
+{
+    const int rightBit = 0x1 & V[y];
+    V[x] = (V[y] >> 1);
+    V[0xF] = rightBit;
+}
+
+//8xyE
+void Chip8::leftShift(size_t x, size_t y)
+{
+    const int leftBit = (V[y] >> (BYTE_SIZE - 1));
+    V[x] = (V[y] << 1);
+    V[0xF] = leftBit;
+}
