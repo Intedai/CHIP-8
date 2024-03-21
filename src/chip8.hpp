@@ -92,6 +92,7 @@ class Chip8
         void returnFromSub();
         void writeV0toVXtoMEM(uint8_t x);
         void readV0toVXtoMEM(uint8_t x);
+        void drawSprite(uint8_t x, uint8_t y, uint8_t n);
 };
 
 #endif

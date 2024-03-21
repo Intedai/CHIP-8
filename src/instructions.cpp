@@ -218,3 +218,42 @@ void Chip8::readV0toVXtoMEM(uint8_t x)
     }
     //I += x+1;
 }
+
+//Dxyn
+void Chip8::drawSprite(uint8_t x, uint8_t y, uint8_t n)
+{
+    uint8_t xCoord = V[x] & 0x3F;
+    uint8_t yCoord = V[y] & 0x1F;
+    V[0xF] = 0;
+
+    for(int row = 0; row < n; ++row)
+    {
+        // Stop drawing if reached the bottom
+        if (yCoord + row >= HEIGHT)
+            break;
+
+        uint8_t spriteRow = memory[I + row];
+
+        // Width is always 8
+        for(int col = 0; col < BYTE_SIZE; ++col)
+        {
+            // Stop drawing current row if reached the right edge of the screen
+            if (xCoord + col >= WIDTH) 
+                break;
+
+            // Get current pixel from MSB to LSB
+            uint8_t pixel = (spriteRow >> (7 - col)) & 1;
+            size_t screenIndex = (yCoord + row) * WIDTH + (xCoord + col);
+
+            if(pixel)
+            {
+                if(screen[screenIndex] == 1)
+                {
+                    V[0xF] = 1;
+                }
+                screen[screenIndex] ^= 1;
+            }
+        }
+    }
+}
+
