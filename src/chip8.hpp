@@ -49,7 +49,6 @@ class Chip8
         uint16_t opcode;
         uint16_t pc;
         uint16_t I;
-        uint8_t drawFlag;
         uint8_t delayTimer;
         uint8_t soundTimer;
     

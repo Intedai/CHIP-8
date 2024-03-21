@@ -10,7 +10,6 @@ Chip8::Chip8(std::string_view fileName)
       opcode{0},
       pc{0},
       I{0},
-      drawFlag{0},
       delayTimer{0},
       soundTimer{0}
 {

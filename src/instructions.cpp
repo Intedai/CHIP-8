@@ -8,7 +8,6 @@
 void Chip8::clear()
 {
     screen.fill(0);
-    drawFlag = 1;
 }
 
 //8xy0
