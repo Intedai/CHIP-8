@@ -90,9 +90,8 @@ class Chip8
         void leftShift(size_t x, size_t y);
         void callNNN(uint16_t nnn);
         void returnFromSub();
-
-
-
+        void writeV0toVXtoMEM(uint8_t x);
+        void readV0toVXtoMEM(uint8_t x);
 };
 
 #endif

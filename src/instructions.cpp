@@ -2,6 +2,7 @@
 
 //TODO: make a friend class of chip8 called instructions and restructure
 //TODO: Remove next instruction to
+//TODO: Check if it is needed to: I += x+1 in fx65 and fx55
 
 //00E0
 void Chip8::clear()
@@ -198,3 +199,22 @@ void Chip8::returnFromSub()
     pc = stack[--sp & 0xF];
 }
 
+//fx55
+void Chip8::writeV0toVXtoMEM(uint8_t x)
+{
+    for(uint8_t i = 0; i <= x; ++i)
+    {
+        memory[I+i] = V[i];
+    }
+    //I += x+1;
+}
+
+//fx65
+void Chip8::readV0toVXtoMEM(uint8_t x)
+{
+    for(uint8_t i = 0; i <= x; ++i)
+    {
+        V[i] = memory[I+i];
+    }
+    //I += x+1;
+}
