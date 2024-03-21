@@ -1,7 +1,6 @@
 #include "instructions.hpp"
 
 //TODO: make a friend class of chip8 called instructions and restructure
-//TODO: Remove next instruction to
 //TODO: Check if it is needed to: I += x+1 in fx65 and fx55
 
 //00E0
@@ -256,3 +255,22 @@ void Chip8::drawSprite(uint8_t x, uint8_t y, uint8_t n)
     }
 }
 
+//fx29
+void Chip8::setItoHex(uint8_t x)
+{
+    I = (V[x] & 0xF) * 5;
+}
+
+//ex9e
+void Chip8::skipIfPressed(uint8_t x)
+{
+    if(keyboard[V[x] & 0xF])
+        nextInstruction();
+}
+
+//exa1
+void Chip8::skipIfNotPressed(uint8_t x)
+{
+    if(!(keyboard[V[x]] & 0xF))
+        nextInstruction();   
+}

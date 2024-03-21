@@ -13,16 +13,21 @@ Chip8::Chip8(std::string_view fileName)
       delayTimer{0},
       soundTimer{0}
 {
+    loadFontSet();
+    loadGame(fileName);
+}
+
+void Chip8::loadFontSet()
+{
+    for (size_t i = 0; i < FONT_SIZE; ++i)
+    {
+        memory[i] = fontSet[i];
+    }
 }
 
 void Chip8::nextInstruction()
 {
     pc += 2;
-}
-
-void Chip8::skipInstruction()
-{
-    pc += 4;
 }
 
 void Chip8::updateTimers()

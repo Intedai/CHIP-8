@@ -51,12 +51,12 @@ class Chip8
         uint16_t I;
         uint8_t delayTimer;
         uint8_t soundTimer;
-    
+
+        void loadFontSet();
         void loadGame(std::string_view fileName);
         void fetchOpcode();
         void updateTimers();
         void nextInstruction();
-        void skipInstruction();
 
     public:
         Chip8(std::string_view fileName);
@@ -92,6 +92,9 @@ class Chip8
         void writeV0toVXtoMEM(uint8_t x);
         void readV0toVXtoMEM(uint8_t x);
         void drawSprite(uint8_t x, uint8_t y, uint8_t n);
+        void setItoHex(uint8_t x);
+        void skipIfPressed(uint8_t x);
+        void skipIfNotPressed(uint8_t x);
 };
 
 #endif
