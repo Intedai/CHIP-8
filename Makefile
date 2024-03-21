@@ -1,14 +1,16 @@
 CXX = g++
 CXXFLAGS = -Wall
 TARGET = Interpreter
-SRCS = main.cpp chip8.cpp instructions.cpp
+SRCDIR = src
+SRCS = $(addprefix $(SRCDIR)/, main.cpp chip8.cpp instructions.cpp)
 OBJS = $(SRCS:.cpp=.o)
 
-TARGET: $(OBJS)
+$(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
 
-%.cpp: %.o
-	$(CXX) $(CXXFLAGS) -c $<
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
 clean:
 	rm -f $(OBJS) $(TARGET)
 
