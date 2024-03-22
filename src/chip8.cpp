@@ -5,6 +5,7 @@ Chip8::Chip8(std::string_view fileName)
       memory{},
       V{},
       keyboard{},
+      keyboardLastFrame{},
       stack{},
       sp{0},
       opcode{0},

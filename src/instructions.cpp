@@ -274,3 +274,15 @@ void Chip8::skipIfNotPressed(uint8_t x)
     if(!(keyboard[V[x]] & 0xF))
         nextInstruction();   
 }
+
+//fx0a
+void Chip8::getKey(uint8_t x) {
+
+    for(int i = 0; i < KEY_COUNT; ++i) {
+        if(keyboardLastFrame[i] && !keyboard[i]) {
+            V[x] = i;
+            return;
+        }
+    }
+    pc -= 2;
+}

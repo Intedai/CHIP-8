@@ -43,7 +43,8 @@ class Chip8
         std::array<uint8_t,WIDTH * HEIGHT> screen;    
         std::array<uint8_t, MEMORY_SIZE> memory;
         std::array<uint8_t, REGISTER_COUNT> V;
-        std::array<uint8_t, KEY_COUNT> keyboard;
+        std::array<bool, KEY_COUNT> keyboard;
+        std::array<bool, KEY_COUNT> keyboardLastFrame;
         std::array<uint16_t, REGISTER_COUNT> stack;
         uint16_t sp;
         uint16_t opcode;
@@ -95,6 +96,7 @@ class Chip8
         void setItoHex(uint8_t x);
         void skipIfPressed(uint8_t x);
         void skipIfNotPressed(uint8_t x);
+        void getKey(uint8_t x);
 };
 
 #endif
