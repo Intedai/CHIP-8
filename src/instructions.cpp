@@ -1,288 +1,266 @@
 #include "instructions.hpp"
 
-//TODO: make a friend class of chip8 called instructions and restructure
-//TODO: Check if it is needed to: I += x+1 in fx65 and fx55
+Instructions::Instructions(Chip8& chip8Ref)
+    : chip8(chip8Ref)
+{}
 
 //00E0
-void Chip8::clear()
+void Instructions::clear()
 {
-    screen.fill(0);
+    chip8.screen.fill(0);
 }
 
 //8xy0
-void Chip8::mov_vxvy(size_t x, size_t y)
+void Instructions::mov_vxvy(size_t x, size_t y)
 {
-    V[x] = V[y];
+    chip8.V[x] = chip8.V[y];
 }
 
 //8xy3
-void Chip8::xor_vxvy(size_t x, size_t y)
+void Instructions::xor_vxvy(size_t x, size_t y)
 {    
-    V[x] ^=  V[y];
+    chip8.V[x] ^=  chip8.V[y];
 }
 
 //8xy1
-void Chip8::or_vxvy(size_t x, size_t y)
+void Instructions::or_vxvy(size_t x, size_t y)
 {    
-    V[x] |=  V[y];
+    chip8.V[x] |=  chip8.V[y];
 }
 
 //8xy2
-void Chip8::and_vxvy(size_t x, size_t y)
+void Instructions::and_vxvy(size_t x, size_t y)
 {
-    V[x] &=  V[y];
+    chip8.V[x] &=  chip8.V[y];
 }
 
 //6xnn
-void Chip8::mov_vxnn(size_t x, uint8_t nn)
+void Instructions::mov_vxnn(size_t x, uint8_t nn)
 {
-    V[x] += nn;
+    chip8.V[x] += nn;
 }
 
 //Annn
-void Chip8::mvi_nnn(uint16_t nnn)
+void Instructions::mvi_nnn(uint16_t nnn)
 {
-    I = nnn;
+    chip8.I = nnn;
 }
 
 //Fx15
-void Chip8::sdelay_vx(size_t x)
+void Instructions::sdelay_vx(size_t x)
 {
-    delayTimer = V[x];
+    chip8.delayTimer = chip8.V[x];
 }
 
 //Fx18
-void Chip8::ssound_vx(size_t x)
+void Instructions::ssound_vx(size_t x)
 {
-    soundTimer = V[x];
+    chip8.soundTimer = chip8.V[x];
 }
 
 //Fx07
-void Chip8::gdelay_vx(size_t x)
+void Instructions::gdelay_vx(size_t x)
 {
-    V[x] = delayTimer;
+    chip8.V[x] = chip8.delayTimer;
 }
 
 //1nnn
-void Chip8::jump_nnn(uint16_t nnn)
+void Instructions::jump_nnn(uint16_t nnn)
 {
-    pc = nnn;
+    chip8.pc = nnn;
 }
 
 //Bnnn
-void Chip8::jump0_nnn(uint16_t nnn)
+void Instructions::jump0_nnn(uint16_t nnn)
 {
-    pc = nnn + V[0];
+    chip8.pc = nnn + chip8.V[0];
 }
 
 //Cxnn
-void Chip8::rand_vxnn(size_t x, uint8_t nn)
+void Instructions::rand_vxnn(size_t x, uint8_t nn)
 {
-    // Static to initialize once instead of every call
     static std::random_device rd;
-    static std::mt19937 eng(rd());
-
-    // Range is 0 to 255 because the random number is a byte
-    std::uniform_int_distribution<> distr(0, (1 << BYTE_SIZE) - 1);
-
-    uint8_t randomNumber = static_cast<uint8_t>(distr(eng));
-
-    V[x] = randomNumber & nn;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<uint8_t> dis(0, 255);
+    chip8.V[x] = dis(gen) & nn;
 }
 
 //3xnn
-void Chip8::ifVxNotEqualsNN(size_t x, uint8_t nn)
+void Instructions::ifVxEqualsNN(size_t x, uint8_t nn)
 {
-    if(V[x] == nn)
-        nextInstruction();
+    if (chip8.V[x] == nn)
+        chip8.nextInstruction();
 }
 
 //4xnn
-void Chip8::ifVxEqualsNN(size_t x, uint8_t nn)
+void Instructions::ifVxNotEqualsNN(size_t x, uint8_t nn)
 {
-    if(V[x] != nn)
-        nextInstruction();
+    if (chip8.V[x] != nn)
+        chip8.nextInstruction();
 }
 
 //5xy0
-void Chip8::ifVxNotEqualsVy(size_t x, size_t y)
+void Instructions::ifVxEqualsVy(size_t x, size_t y)
 {
-    if(V[x] == V[y])
-        nextInstruction();
+    if (chip8.V[x] == chip8.V[y])
+        chip8.nextInstruction();
 }
 
 //9xy0
-void Chip8::ifVxEqualsVy(size_t x ,size_t y)
+void Instructions::ifVxNotEqualsVy(size_t x, size_t y)
 {
-    if(V[x] != V[y])
-        nextInstruction();
+    if (chip8.V[x] != chip8.V[y])
+        chip8.nextInstruction();
 }
 
 //8xy4
-void Chip8::add_vxvy(size_t x, size_t y)
+void Instructions::add_vxvy(size_t x, size_t y)
 {
-    const int sum = V[x] + V[y];
-    V[x] = static_cast<uint8_t>(sum);
-    
-    // Smallest overflow is 0xFF + 0x1 = 0x100 and biggest overflow is 0xFF + 0xFF= 0x1FE
-    V[0xF] = static_cast<uint8_t>(sum >> BYTE_SIZE);
+    uint16_t sum = chip8.V[x] + chip8.V[y];
+    chip8.V[0xF] = (sum > 0xFF) ? 1 : 0;
+    chip8.V[x] = sum & 0xFF;
 }
 
 //7xnn
-void Chip8::add_vxnn(size_t x, uint8_t nn)
+void Instructions::add_vxnn(size_t x, uint8_t nn)
 {
-    V[x] += nn;
+    chip8.V[x] += nn;
 }
 
 //Fx1E
-void Chip8::add_ivx(size_t x)
+void Instructions::add_ivx(size_t x)
 {
-    I += V[x];
+    chip8.I += chip8.V[x];
 }
 
 //8xy5
-void Chip8::sub_vxvy(size_t x, size_t y)
+void Instructions::sub_vxvy(size_t x, size_t y)
 {
-    const int flag = V[x] >= V[y];
-
-    V[x] -= V[y];
-
-    V[0xF] = flag;
+    chip8.V[0xF] = (chip8.V[x] > chip8.V[y]) ? 1 : 0;
+    chip8.V[x] -= chip8.V[y];
 }
 
 //8xy7
-void Chip8::nsub_vxvy(size_t x, size_t y)
+void Instructions::nsub_vxvy(size_t x, size_t y)
 {
-    const int flag = V[y] >= V[x];
-
-    V[x] = V[y] - V[x];
-    
-    V[0xF] = flag;
+    chip8.V[0xF] = (chip8.V[y] > chip8.V[x]) ? 1 : 0;
+    chip8.V[x] = chip8.V[y] - chip8.V[x];
 }
 
 //Fx33
-void Chip8::bcd(size_t x)
+void Instructions::bcd(size_t x)
 {
-    memory[I] = V[x] / 100;
-    memory[I + 1] = (V[x] / 10) % 10;
-    memory[I + 2] = V[x] % 10;
+    uint8_t value = chip8.V[x];
+    chip8.memory[chip8.I + 2] = value % 10;
+    value /= 10;
+    chip8.memory[chip8.I + 1] = value % 10;
+    value /= 10;
+    chip8.memory[chip8.I] = value % 10;
 }
 
 //8xy6
-void Chip8::rightShift(size_t x, size_t y)
+void Instructions::rightShift(size_t x, size_t y)
 {
-    const int rightBit = 0x1 & V[y];
-    V[x] = (V[y] >> 1);
-    V[0xF] = rightBit;
+    chip8.V[0xF] = chip8.V[y] & 0x1;
+    chip8.V[x] = chip8.V[y] >> 1;
 }
 
 //8xyE
-void Chip8::leftShift(size_t x, size_t y)
+void Instructions::leftShift(size_t x, size_t y)
 {
-    const int leftBit = V[y] >> (BYTE_SIZE - 1);
-    V[x] = (V[y] << 1);
-    V[0xF] = leftBit;
+    chip8.V[0xF] = (chip8.V[y] & 0x80) >> 7;
+    chip8.V[x] = chip8.V[y] << 1;
 }
 
-//2NNN
-void Chip8::callNNN(uint16_t nnn)
+//2nnn
+void Instructions::callNNN(uint16_t nnn)
 {
-    stack[sp++ & 0xF] = pc;
-    pc = nnn;
+    chip8.stack[chip8.sp] = chip8.pc;
+    chip8.sp++;
+    chip8.pc = nnn;
 }
 
 //00EE
-void Chip8::returnFromSub()
+void Instructions::returnFromSub()
 {
-    pc = stack[--sp & 0xF];
+    chip8.sp--;
+    chip8.pc = chip8.stack[chip8.sp];
 }
 
-//fx55
-void Chip8::writeV0toVXtoMEM(uint8_t x)
+//Fx55
+void Instructions::writeV0toVXtoMEM(uint8_t x)
 {
-    for(uint8_t i = 0; i <= x; ++i)
+    for (uint8_t i = 0; i <= x; ++i)
     {
-        memory[I+i] = V[i];
+        chip8.memory[chip8.I + i] = chip8.V[i];
     }
-    //I += x+1;
 }
 
-//fx65
-void Chip8::readV0toVXtoMEM(uint8_t x)
+//Fx65
+void Instructions::readV0toVXtoMEM(uint8_t x)
 {
-    for(uint8_t i = 0; i <= x; ++i)
+    for (uint8_t i = 0; i <= x; ++i)
     {
-        V[i] = memory[I+i];
+        chip8.V[i] = chip8.memory[chip8.I + i];
     }
-    //I += x+1;
 }
 
 //Dxyn
-void Chip8::drawSprite(uint8_t x, uint8_t y, uint8_t n)
+void Instructions::drawSprite(uint8_t x, uint8_t y, uint8_t n)
 {
-    uint8_t xCoord = V[x] & 0x3F;
-    uint8_t yCoord = V[y] & 0x1F;
-    V[0xF] = 0;
-
-    for(int row = 0; row < n; ++row)
+    chip8.V[0xF] = 0;
+    for (uint8_t i = 0; i < n; ++i)
     {
-        // Stop drawing if reached the bottom
-        if (yCoord + row >= HEIGHT)
-            break;
-
-        uint8_t spriteRow = memory[I + row];
-
-        // Width is always 8
-        for(int col = 0; col < BYTE_SIZE; ++col)
+        uint8_t spriteByte = chip8.memory[chip8.I + i];
+        for (uint8_t j = 0; j < 8; ++j)
         {
-            // Stop drawing current row if reached the right edge of the screen
-            if (xCoord + col >= WIDTH) 
-                break;
-
-            // Get current pixel from MSB to LSB
-            uint8_t pixel = (spriteRow >> (7 - col)) & 1;
-            size_t screenIndex = (yCoord + row) * WIDTH + (xCoord + col);
-
-            if(pixel)
+            if ((spriteByte & (0x80 >> j)) != 0)
             {
-                if(screen[screenIndex] == 1)
+                size_t index = (chip8.V[x] + j + ((chip8.V[y] + i) * WIDTH)) % (WIDTH * HEIGHT);
+                if (chip8.screen[index])
                 {
-                    V[0xF] = 1;
+                    chip8.V[0xF] = 1;
                 }
-                screen[screenIndex] ^= 1;
+                chip8.screen[index] ^= 1;
             }
         }
     }
 }
 
-//fx29
-void Chip8::setItoHex(uint8_t x)
+//Fx29
+void Instructions::setItoHex(uint8_t x)
 {
-    I = (V[x] & 0xF) * 5;
+    chip8.I = chip8.V[x] * 5;
 }
 
-//ex9e
-void Chip8::skipIfPressed(uint8_t x)
+//Ex9E
+void Instructions::skipIfPressed(uint8_t x)
 {
-    if(keyboard[V[x] & 0xF])
-        nextInstruction();
+    if (chip8.keyboard[chip8.V[x]])
+    {
+        chip8.nextInstruction();
+    }
 }
 
-//exa1
-void Chip8::skipIfNotPressed(uint8_t x)
+//ExA1
+void Instructions::skipIfNotPressed(uint8_t x)
 {
-    if(!(keyboard[V[x]] & 0xF))
-        nextInstruction();   
+    if (!chip8.keyboard[chip8.V[x]])
+    {
+        chip8.nextInstruction();
+    }
 }
 
-//fx0a
-void Chip8::getKey(uint8_t x) {
-
-    for(int i = 0; i < KEY_COUNT; ++i) {
-        if(keyboardLastFrame[i] && !keyboard[i]) {
-            V[x] = i;
+//Fx0A
+void Instructions::getKey(uint8_t x)
+{
+    for (uint8_t i = 0; i < chip8.keyboard.size(); ++i)
+    {
+        if (chip8.keyboard[i])
+        {
+            chip8.V[x] = i;
             return;
         }
     }
-    pc -= 2;
+    chip8.pc -= 2; // Repeat the instruction if no key was pressed
 }
