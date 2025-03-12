@@ -64,6 +64,8 @@ class CPU {
 
         void fetchOpcode();
         void executeInstruction(Screen& screen);
+
+        uint16_t getPC();
         void setPC(uint16_t value);
 
         void nextInstruction();
@@ -77,6 +79,9 @@ class CPU {
 
         uint8_t readFromMem(size_t index);
         void writeToMem(size_t index, uint8_t value);
+
+        void pushToStack(uint16_t value);
+        uint16_t popFromStack();
 
         int getIPF();
 

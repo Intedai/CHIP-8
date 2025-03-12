@@ -13,7 +13,25 @@ namespace instructions {
     void addToVx(size_t x, uint8_t nn, CPU& cpu);
     void setI(uint16_t nnn, CPU& cpu);
     void jump(uint16_t nnn, CPU& cpu);
-    void drawSprite(uint8_t n, uint8_t x, uint8_t y, Screen& screen, CPU& cpu);
-};
-
+    void drawSprite(uint8_t n, size_t x, size_t y, Screen& screen, CPU& cpu);
+    void ifVxEqualsNN(size_t x, uint8_t nn, CPU& cpu);
+    void ifVxDoesntEqualNN(size_t x, uint8_t nn, CPU& cpu);
+    void ifVxEqualsVy(size_t x, size_t y, CPU& cpu);
+    void ifVxDoesntEqualVy(size_t x, size_t y, CPU& cpu);
+    void callSubroutine(uint16_t nnn, CPU& cpu);
+    void returnFromSub(CPU& cpu);
+    void movVxVy(size_t x, size_t y, CPU& cpu);
+    void orVxVy(size_t x, size_t y, CPU& cpu);
+    void andVxVy(size_t x, size_t y, CPU& cpu);
+    void xorVxVy(size_t x, size_t y, CPU& cpu);
+    void addVxVy(size_t x, size_t y, CPU& cpu);
+    void subVxVy(size_t x, size_t y, CPU& cpu);
+    void subVyVx(size_t x, size_t y, CPU& cpu);
+    void shiftRight(size_t x, size_t y, CPU& cpu);
+    void shiftLeft(size_t x, size_t y, CPU& cpu);
+    void writeV0toVXtoMEM(size_t x, CPU& cpu);
+    void readV0toVXfromMEM(size_t x, CPU& cpu);
+    void decimalConversion(size_t x, CPU& cpu);
+    void addVxNN(size_t x, CPU& cpu);
+}
 #endif

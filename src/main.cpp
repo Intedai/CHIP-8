@@ -3,8 +3,26 @@
 #include "chip8.hpp"
 #include <string>
 int main() {
+    int test;
     std::string rom;
-    std::cin >> rom;
+    std::cout << "Enter test:";
+    std::cin >> test;
+    switch (test)
+    {
+        case 1:
+            rom = "tests/1-chip8-logo.ch8";
+            break;
+        case 2:
+            rom = "tests/2-ibm-logo.ch8";
+            break;
+        case 3:
+            rom = "tests/3-corax+.ch8";
+            break;
+        default:
+            std::cout << "Test doesnt exist!";
+            exit(1);
+            break;
+    }
     sf::RenderWindow window(sf::VideoMode({WIDTH * 10, HEIGHT * 10}), "CHIP8 EMULATOR");
     Chip8 chip8(rom, window);
 

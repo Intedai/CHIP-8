@@ -36,6 +36,9 @@
 *.x86_64
 *.hex
 
+# Executable in linux
+ch8emu
+
 # Debug files
 *.dSYM/
 *.su
