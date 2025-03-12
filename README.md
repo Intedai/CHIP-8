@@ -16,4 +16,6 @@ TESTS PASSED:
 
  - [x] `1-chip8-logo.ch8`
  - [x] `2-ibm-logo.ch8`
+ - [x] `3-corax+.ch8`
+ - [x] `4-flags.ch8`
  - [ ]  Other tests will be added soon!

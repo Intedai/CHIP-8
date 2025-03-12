@@ -136,36 +136,40 @@ void instructions::xorVxVy(size_t x, size_t y, CPU& cpu)
 void instructions::addVxVy(size_t x, size_t y, CPU& cpu)
 {
     int16_t sum = cpu.getV(x) + cpu.getV(y);
-    cpu.setV(0xF, sum > 0xFF ? 1 : 0);
     cpu.setV(x, sum & 0xFF);
+    cpu.setV(0xF, sum > 0xFF ? 1 : 0);
 }
 
 // OPCODE: 8XY5
 void instructions::subVxVy(size_t x, size_t y, CPU& cpu)
 {
-    cpu.setV(0xF, cpu.getV(x) > cpu.getV(y) ? 1 : 0);
+    uint8_t flagValue = cpu.getV(x) >= cpu.getV(y) ? 1 : 0;
     cpu.setV(x, cpu.getV(x) - cpu.getV(y));
+    cpu.setV(0xF, flagValue);
 }
 
 // OPCODE: 8XY7
 void instructions::subVyVx(size_t x, size_t y, CPU& cpu)
 {
-    cpu.setV(0xF, cpu.getV(x) > cpu.getV(y) ? 1 : 0);
+    uint8_t flagValue = cpu.getV(y) >= cpu.getV(x) ? 1 : 0;
     cpu.setV(x, cpu.getV(y) - cpu.getV(x));
+    cpu.setV(0xF, flagValue);
 }
 
 // OPCODE: 8XY6
 void instructions::shiftRight(size_t x, size_t y, CPU& cpu)
 {
-    cpu.setV(0xF, cpu.getV(y) & 0x1);
+    uint8_t flagValue = cpu.getV(y) & 0x1;
     cpu.setV(x, cpu.getV(y) >> 1);
+    cpu.setV(0xF, flagValue);
 }
 
 // OPCODE: 8XYE
 void instructions::shiftLeft(size_t x, size_t y, CPU& cpu)
 {
-    cpu.setV(0xF, (cpu.getV(y) & 0x80) >> (BYTE_SIZE - 1));
+    uint8_t flagValue = (cpu.getV(y) & 0x80) >> (BYTE_SIZE - 1);
     cpu.setV(x, cpu.getV(y) << 1);
+    cpu.setV(0xF, flagValue);
 }
 
 // OPCODE: FX55

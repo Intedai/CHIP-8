@@ -2,6 +2,7 @@
 #include "globals.hpp"
 #include "chip8.hpp"
 #include <string>
+
 int main() {
     int test;
     std::string rom;
@@ -17,6 +18,9 @@ int main() {
             break;
         case 3:
             rom = "tests/3-corax+.ch8";
+            break;
+        case 4:
+            rom = "tests/4-flags.ch8";
             break;
         default:
             std::cout << "Test doesnt exist!";

@@ -112,7 +112,6 @@ void CPU::executeInstruction(Screen& screen)
         case 0xF000:
             switch(opcode & 0x0FF)
             {
-                // TODO: FIX 001E, 0033 THEY CAUSE SEGMENTATION FAULT
                 case 0x001E:
                     instructions::addVxNN(X(), *this);
                     break;
