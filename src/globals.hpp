@@ -1,8 +1,7 @@
 #ifndef GLOBALS
 #define GLOBALS
-
-#define COLOR_ON sf::Color(255, 150, 60)
-#define COLOR_OFF sf::Color::Black
+#define COLOR_ON sf::Color(36, 82, 59)
+#define COLOR_OFF sf::Color(18, 32, 32)
 
 constexpr int WIDTH = 64;
 constexpr int HEIGHT = 32;

@@ -22,6 +22,19 @@ void CPU::fetchOpcode()
     opcode = memory[pc] << BYTE_SIZE | memory[pc + 1];
 }
 
+void CPU::updateTimers()
+{
+    if (soundTimer > 0)
+    {
+        soundTimer --;
+        // Sound placeholder
+        std::cout << "\a";
+    }
+
+    if (delayTimer > 0)
+        delayTimer--;
+}
+
 void CPU::executeInstruction(Screen& screen)
 {
     switch (opcode & 0xF000)

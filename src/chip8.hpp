@@ -8,6 +8,9 @@
 #include "screen.hpp"
 #include "cpu.hpp"
 
+constexpr int FPS = 60; 
+const sf::Time cycleTime = sf::milliseconds(1000/FPS);
+
 class Chip8 {
     private:
         Screen screen;

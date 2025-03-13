@@ -22,6 +22,12 @@ int main() {
         case 4:
             rom = "tests/4-flags.ch8";
             break;
+        case 5:
+            rom = "tests/5-quirks.ch8";
+            break;
+        case 6:
+            rom = "tests/6-quirks.ch8";
+            break;
         default:
             std::cout << "Test doesnt exist!";
             exit(1);

@@ -18,4 +18,6 @@ TESTS PASSED:
  - [x] `2-ibm-logo.ch8`
  - [x] `3-corax+.ch8`
  - [x] `4-flags.ch8`
+ - [ ] `5-quirks.ch8`
+ - [ ] `6-keypad.ch8`
  - [ ]  Other tests will be added soon!

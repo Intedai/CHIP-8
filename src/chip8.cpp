@@ -29,9 +29,18 @@ void Chip8::run()
             }
         }
 
-        cpu.fetchOpcode();
-        cpu.executeInstruction(screen);
+        cpu.updateTimers();
+        
+        for(int i = 0; i < cpu.getIPF(); i++)
+        {
+            cpu.fetchOpcode();
+            cpu.executeInstruction(screen);
+        }
 
+        sf::Time elapsed = clock.getElapsedTime();
+
+        if (cycleTime > elapsed)
+            sf::sleep(cycleTime - clock.getElapsedTime());
 
         //screen.window.clear(); // <==== I Dont think it's needed but here incase im wrong
         screen.render();

@@ -19,7 +19,6 @@
 
 constexpr int MEMORY_SIZE = 0x1000;
 constexpr int REGISTER_COUNT = 0x10;
-constexpr int KEY_COUNT = 0x10;
 constexpr int START_ADDRESS = 0x200;
 constexpr int FONT_SIZE = 0x50;
 constexpr int STARTING_IPF = 10; 
@@ -63,8 +62,9 @@ class CPU {
         CPU(std::string_view fileName);
 
         void fetchOpcode();
+        void updateTimers();
         void executeInstruction(Screen& screen);
-
+        
         uint16_t getPC();
         void setPC(uint16_t value);
 
