@@ -32,6 +32,12 @@ void instructions::jump(uint16_t nnn, CPU& cpu)
     cpu.lastInstruction(); // Go back since every cycle instruction is incremented by 2.
 }
 
+// OPCODE: BNNN
+void instructions::jumpPlusV0(uint16_t nnn, CPU& cpu)
+{
+    jump(nnn + cpu.getV(0), cpu);
+}
+
 // OPCODE: DXYN
 void instructions::drawSprite(uint8_t n, size_t x, size_t y, Screen& screen, CPU& cpu)
 {
@@ -207,3 +213,41 @@ void instructions::addVxNN(size_t x, CPU& cpu)
     cpu.setI(cpu.getI() + cpu.getV(x));
 }
 
+// OPCODE: FX29
+void instructions::setItoFontChar(size_t x, CPU& cpu)
+{
+    // Fontset starts at index 0 at memory and each char sprite is 5 bytes
+    cpu.setI((cpu.getV(x)&0xF) * 5);
+}
+
+// OPCODE: FX07
+void instructions::setVxToDelayTimer(size_t x, CPU& cpu)
+{
+    cpu.setV(x, cpu.getDelayTimer());
+}
+
+// OPCODE: FX15
+void instructions::setDelayTimerToVx(size_t x, CPU& cpu)
+{
+    cpu.setDelayTimer(x);
+}
+
+// OPCODE: FX18
+void instructions::setSoundTimerToVx(size_t x, CPU& cpu)
+{
+    cpu.setSoundTimer(x);
+}
+
+// OPCODE: EX9E
+void instructions::skipIfPressed(size_t x, Keyboard& keyboard, CPU& cpu)
+{
+    if(keyboard.isKeyHeldDown(x))
+        cpu.nextInstruction();
+}
+
+// OPCODE: EXA1
+void instructions::skipIfNotPressed(size_t x, Keyboard& keyboard, CPU& cpu)
+{
+    if(!keyboard.isKeyHeldDown(x))
+        cpu.nextInstruction();
+}

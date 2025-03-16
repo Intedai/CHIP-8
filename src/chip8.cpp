@@ -2,14 +2,15 @@
 
 Chip8::Chip8(std::string_view fileName,sf::RenderWindow& windowRef)
     : screen(windowRef),
-      cpu(fileName)
+      cpu(fileName),
+      keyboard()
 {
     
 }
 
 void Chip8::run()
 {
-    sf::Clock clock; // do something with this
+    sf::Clock clock;
     while (screen.window.isOpen())
     {
         sf::Event event;
@@ -34,15 +35,17 @@ void Chip8::run()
         for(int i = 0; i < cpu.getIPF(); i++)
         {
             cpu.fetchOpcode();
-            cpu.executeInstruction(screen);
+            cpu.executeInstruction(screen, keyboard);
         }
+
+        screen.window.clear(); // <==== I Dont think it's needed but here incase im wrong
+        screen.render();
 
         sf::Time elapsed = clock.getElapsedTime();
 
         if (cycleTime > elapsed)
-            sf::sleep(cycleTime - clock.getElapsedTime());
+            sf::sleep(cycleTime - elapsed);
+        clock.restart();
 
-        //screen.window.clear(); // <==== I Dont think it's needed but here incase im wrong
-        screen.render();
     }
 }

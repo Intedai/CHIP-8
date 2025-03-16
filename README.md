@@ -5,7 +5,7 @@
 Using C++ and sfml for graphics (and audio in the future)
 
 ## Compilation
-`g++ -Wall -Wextra src/chip8.cpp src/cpu.cpp src/instructions.cpp src/main.cpp src/screen.cpp -o ch8emu -lsfml-graphics -lsfml-window -lsfml-system`
+`g++ -Wall -Wextra src/chip8.cpp src/cpu.cpp src/instructions.cpp src/main.cpp src/screen.cpp src/keyboard.cpp -o ch8emu -lsfml-graphics -lsfml-window -lsfml-system`
 
 for now, it will be a `makefile`,`cmake` or `ninja` in the future, i have yet to decide and learn most of these.
 
@@ -20,4 +20,4 @@ TESTS PASSED:
  - [x] `4-flags.ch8`
  - [ ] `5-quirks.ch8`
  - [ ] `6-keypad.ch8`
- - [ ]  Other tests will be added soon!
+ - [ ] `7-beep.ch8`

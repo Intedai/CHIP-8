@@ -1,5 +1,4 @@
 #include "cpu.hpp"
-#include "instructions.hpp"
 
 CPU::CPU(std::string_view fileName)
     : memory{},
@@ -26,8 +25,9 @@ void CPU::updateTimers()
 {
     if (soundTimer > 0)
     {
-        soundTimer --;
+        soundTimer--;
         // Sound placeholder
+        std::cout << "BEEP";
         std::cout << "\a";
     }
 
@@ -35,7 +35,7 @@ void CPU::updateTimers()
         delayTimer--;
 }
 
-void CPU::executeInstruction(Screen& screen)
+void CPU::executeInstruction(Screen& screen, Keyboard& keyboard)
 {
     switch (opcode & 0xF000)
     {
@@ -119,8 +119,25 @@ void CPU::executeInstruction(Screen& screen)
         case 0xA000:
             instructions::setI(NNN(), *this);
             break;
+        case 0xB000:
+            instructions::jumpPlusV0(NNN(), *this);
+            break;
         case 0xD000:
             instructions::drawSprite(N(),X(),Y(), screen, *this);
+            break;
+        case 0xE000:
+            switch (opcode & 0x00FF)
+            {
+                case 0x009E:
+                    instructions::skipIfPressed(X(),keyboard,*this);
+                    break;
+                case 0x00A1:
+                    instructions::skipIfNotPressed(X(),keyboard,*this);
+                    break;     
+                default:
+
+                    break;
+            }
             break;
         case 0xF000:
             switch(opcode & 0x0FF)
@@ -139,8 +156,20 @@ void CPU::executeInstruction(Screen& screen)
                 case 0x0065:
                     instructions::readV0toVXfromMEM(X(),*this);
                     break;
+                case 0x0029:
+                    instructions::setItoFontChar(X(),*this);
+                    break;
+                case 0x0007:
+                    instructions::setVxToDelayTimer(X(), *this);
+                    break;
+                case 0x015:
+                    instructions::setDelayTimerToVx(X(),*this);
+                    break;
+                case 0x018:
+                    instructions::setSoundTimerToVx(X(), *this);
+                    break;
                 default:
-                    
+
                     break;
             }
 
@@ -253,4 +282,19 @@ void CPU::writeToMem(size_t index, uint8_t value)
 int CPU::getIPF()
 {
     return IPF;
+}
+
+void CPU::setDelayTimer(uint8_t value)
+{
+    delayTimer = value;
+}
+
+uint8_t CPU::getDelayTimer()
+{
+    return delayTimer;
+}
+
+void CPU::setSoundTimer(uint8_t value)
+{
+    soundTimer = value;
 }

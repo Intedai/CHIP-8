@@ -1,7 +1,11 @@
 #include "keyboard.hpp"
 
 Keyboard::Keyboard()
-    : keyboard{}
+    : keys{}
 {
+}
 
+bool Keyboard::isKeyHeldDown(size_t key)
+{
+    return keys[key];
 }

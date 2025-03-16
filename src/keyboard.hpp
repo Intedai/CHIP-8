@@ -3,14 +3,16 @@
 
 #include <array>
 #include <cstdint>
+#include <cstddef>
 
 constexpr int KEY_COUNT = 0x10;
 
 class Keyboard {
     private:
-        std::array<bool, KEY_COUNT> keyboard;
+        std::array<uint8_t, KEY_COUNT> keys;
     public:
         Keyboard();
+        bool isKeyHeldDown(size_t key);
 };
 
 #endif

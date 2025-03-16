@@ -5,6 +5,8 @@
 #include <cstddef>
 
 #include "screen.hpp"
+#include "keyboard.hpp"
+
 class CPU;
 
 namespace instructions {
@@ -13,6 +15,7 @@ namespace instructions {
     void addToVx(size_t x, uint8_t nn, CPU& cpu);
     void setI(uint16_t nnn, CPU& cpu);
     void jump(uint16_t nnn, CPU& cpu);
+    void jumpPlusV0(uint16_t nnn, CPU& cpu);
     void drawSprite(uint8_t n, size_t x, size_t y, Screen& screen, CPU& cpu);
     void ifVxEqualsNN(size_t x, uint8_t nn, CPU& cpu);
     void ifVxDoesntEqualNN(size_t x, uint8_t nn, CPU& cpu);
@@ -33,5 +36,12 @@ namespace instructions {
     void readV0toVXfromMEM(size_t x, CPU& cpu);
     void decimalConversion(size_t x, CPU& cpu);
     void addVxNN(size_t x, CPU& cpu);
+    void setItoFontChar(size_t x, CPU& cpu);
+    void setVxToDelayTimer(size_t x, CPU& cpu);
+    void setDelayTimerToVx(size_t x, CPU& cpu);
+    void setSoundTimerToVx(size_t x, CPU& cpu);
+    void skipIfPressed(size_t x, Keyboard& Keyboard, CPU& cpu);
+    void skipIfNotPressed(size_t x, Keyboard& Keyboard, CPU& cpu);
 }
+
 #endif

@@ -26,7 +26,10 @@ int main() {
             rom = "tests/5-quirks.ch8";
             break;
         case 6:
-            rom = "tests/6-quirks.ch8";
+            rom = "tests/6-keypad.ch8";
+            break;
+        case 7:
+            rom ="tests/7-beep.ch8";
             break;
         default:
             std::cout << "Test doesnt exist!";

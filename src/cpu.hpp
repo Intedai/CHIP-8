@@ -9,6 +9,8 @@
 #include <cstddef>
 
 #include "instructions.hpp"
+#include "screen.hpp"
+#include "keyboard.hpp"
 #include "globals.hpp"
 
 #define X() ((opcode & 0x0F00) >> BYTE_SIZE)
@@ -63,7 +65,7 @@ class CPU {
 
         void fetchOpcode();
         void updateTimers();
-        void executeInstruction(Screen& screen);
+        void executeInstruction(Screen& screen, Keyboard& keyboard);
         
         uint16_t getPC();
         void setPC(uint16_t value);
@@ -84,6 +86,11 @@ class CPU {
         uint16_t popFromStack();
 
         int getIPF();
+
+        void setDelayTimer(uint8_t value);
+        uint8_t getDelayTimer();
+
+        void setSoundTimer(uint8_t value);
 
 
 };
