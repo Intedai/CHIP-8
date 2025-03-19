@@ -38,6 +38,15 @@ void instructions::jumpPlusV0(uint16_t nnn, CPU& cpu)
     jump(nnn + cpu.getV(0), cpu);
 }
 
+// OPCODE: CXNN
+void instructions::randomNumber(size_t x, uint8_t nn, CPU& cpu)
+{
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<uint8_t> dis(0, 255);
+    cpu.setV(x, dis(gen) & nn);
+}
+
 // OPCODE: DXYN
 void instructions::drawSprite(uint8_t n, size_t x, size_t y, Screen& screen, CPU& cpu)
 {
@@ -250,4 +259,11 @@ void instructions::skipIfNotPressed(size_t x, Keyboard& keyboard, CPU& cpu)
 {
     if(!keyboard.isKeyHeldDown(x))
         cpu.nextInstruction();
+}
+
+// OPCODE: FX15
+void instructions::getKey(size_t x,Keyboard& keyboard, CPU& cpu)
+{
+    // Not checked yet just go back, basically not pressed
+    cpu.lastInstruction();
 }

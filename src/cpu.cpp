@@ -122,6 +122,9 @@ void CPU::executeInstruction(Screen& screen, Keyboard& keyboard)
         case 0xB000:
             instructions::jumpPlusV0(NNN(), *this);
             break;
+        case 0xC000:
+            instructions::randomNumber(X(), NN(), *this);
+            break;
         case 0xD000:
             instructions::drawSprite(N(),X(),Y(), screen, *this);
             break;
@@ -167,6 +170,9 @@ void CPU::executeInstruction(Screen& screen, Keyboard& keyboard)
                     break;
                 case 0x018:
                     instructions::setSoundTimerToVx(X(), *this);
+                    break;
+                case 0x000A:
+                    instructions::getKey(X(), keyboard, *this);
                     break;
                 default:
 

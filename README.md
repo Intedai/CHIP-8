@@ -11,7 +11,7 @@ for now, it will be a `makefile`,`cmake` or `ninja` in the future, i have yet to
 
 ## Tests
 Tests are taken from [Timendus/chip8-test-suite](https://github.com/Timendus/chip8-test-suite) 
-
+Only the random number test is taken from [mattmikolay/chip-8](https://github.com/mattmikolay/chip-8)
 TESTS PASSED:
 
  - [x] `1-chip8-logo.ch8`

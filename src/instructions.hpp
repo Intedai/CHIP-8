@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <cstddef>
+#include <random>
 
 #include "screen.hpp"
 #include "keyboard.hpp"
@@ -16,6 +17,7 @@ namespace instructions {
     void setI(uint16_t nnn, CPU& cpu);
     void jump(uint16_t nnn, CPU& cpu);
     void jumpPlusV0(uint16_t nnn, CPU& cpu);
+    void randomNumber(size_t x, uint8_t nn, CPU& cpu);
     void drawSprite(uint8_t n, size_t x, size_t y, Screen& screen, CPU& cpu);
     void ifVxEqualsNN(size_t x, uint8_t nn, CPU& cpu);
     void ifVxDoesntEqualNN(size_t x, uint8_t nn, CPU& cpu);
@@ -42,6 +44,7 @@ namespace instructions {
     void setSoundTimerToVx(size_t x, CPU& cpu);
     void skipIfPressed(size_t x, Keyboard& Keyboard, CPU& cpu);
     void skipIfNotPressed(size_t x, Keyboard& Keyboard, CPU& cpu);
+    void getKey(size_t x, Keyboard& keyboard, CPU& cpu);
 }
 
 #endif

@@ -31,6 +31,9 @@ int main() {
         case 7:
             rom ="tests/7-beep.ch8";
             break;
+        case 39:
+            rom = "tests/random_number_test.ch8";
+            break;
         default:
             std::cout << "Test doesnt exist!";
             exit(1);
