@@ -131,18 +131,21 @@ void instructions::movVxVy(size_t x, size_t y, CPU& cpu)
 void instructions::orVxVy(size_t x, size_t y, CPU& cpu)
 {
     cpu.setV(x, cpu.getV(x) | cpu.getV(y));
+    cpu.setV(0xF,0);
 }
 
 // OPCODE: 8XY2
 void instructions::andVxVy(size_t x, size_t y, CPU& cpu)
 {
     cpu.setV(x, cpu.getV(x) & cpu.getV(y));
+    cpu.setV(0xF,0);
 }
 
 // OPCODE: 8XY3
 void instructions::xorVxVy(size_t x, size_t y, CPU& cpu)
 {
     cpu.setV(x, cpu.getV(x) ^ cpu.getV(y));
+    cpu.setV(0xF,0);
 }
 
 // OPCODE: 8XY4
@@ -190,7 +193,9 @@ void instructions::writeV0toVXtoMEM(size_t x, CPU& cpu)
 {
     for(uint8_t i = 0; i <= x; i++)
     {
-        cpu.writeToMem(cpu.getI() + i, cpu.getV(i));
+        cpu.writeToMem(cpu.getI(), cpu.getV(i));
+        cpu.setI(cpu.getI() + 1);
+        // IN MODERN THERE'S A QUIRK, CODE = cpu.writeToMem(cpu.getI() + i, cpu.getV(i));
     }
 }
 
@@ -199,7 +204,9 @@ void instructions::readV0toVXfromMEM(size_t x, CPU& cpu)
 {
     for(size_t i = 0; i <= x; i++)
     {
-        cpu.setV(i,cpu.readFromMem(cpu.getI() + i));
+        cpu.setV(i,cpu.readFromMem(cpu.getI()));
+        cpu.setI(cpu.getI() + 1);
+        // IN MODERN THERE'S A QUIRK, CODE = cpu.setV(i,cpu.readFromMem(cpu.getI() + i));
     }
 }
 

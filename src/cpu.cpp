@@ -68,7 +68,16 @@ void CPU::executeInstruction(Screen& screen, Keyboard& keyboard)
             instructions::ifVxDoesntEqualNN(X(), NN(), *this);
             break;
         case 0x5000:
-            instructions::ifVxEqualsVy(X(), NN(), *this);
+            switch(opcode & 0x000F)
+            {
+                case 0x0000:
+                    instructions::ifVxEqualsVy(X(), Y(), *this);
+                    break;
+                default:
+                    
+                    break;
+            }
+
             break;
         case 0x6000:
             instructions::setVx(X(),NN(), *this);
@@ -114,7 +123,16 @@ void CPU::executeInstruction(Screen& screen, Keyboard& keyboard)
             break;
 
         case 0x9000:
-            instructions::ifVxDoesntEqualVy(X(), Y(), *this);
+            switch(opcode & 0x000F)
+            {
+                case 0x0000:
+                    instructions::ifVxDoesntEqualVy(X(), Y(), *this);
+                    break;
+                default:
+                    
+                    break;
+            }
+            
             break;
         case 0xA000:
             instructions::setI(NNN(), *this);
