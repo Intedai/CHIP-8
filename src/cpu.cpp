@@ -185,8 +185,6 @@ void CPU::executeInstruction(Screen& screen, Keyboard& keyboard)
             
             break;
     }
-
-    nextInstruction();
 }
 
 void CPU::loadFontSet()

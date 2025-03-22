@@ -29,7 +29,6 @@ void instructions::setI(uint16_t nnn, CPU& cpu)
 void instructions::jump(uint16_t nnn, CPU& cpu)
 {
     cpu.setPC(nnn);
-    cpu.lastInstruction(); // Go back since every cycle instruction is incremented by 2.
 }
 
 // OPCODE: BNNN
@@ -114,7 +113,6 @@ void instructions::callSubroutine(uint16_t nnn, CPU& cpu)
 {
     cpu.pushToStack(cpu.getPC());
     cpu.setPC(nnn);
-    cpu.lastInstruction(); // Go back since every cycle instruction is incremented by 2.
 }
 
 // OPCODE: 00EE
@@ -238,32 +236,39 @@ void instructions::setVxToDelayTimer(size_t x, CPU& cpu)
 // OPCODE: FX15
 void instructions::setDelayTimerToVx(size_t x, CPU& cpu)
 {
-    cpu.setDelayTimer(x);
+    cpu.setDelayTimer(cpu.getV(x));
 }
 
 // OPCODE: FX18
 void instructions::setSoundTimerToVx(size_t x, CPU& cpu)
 {
-    cpu.setSoundTimer(x);
+    cpu.setSoundTimer(cpu.getV(x));
 }
 
 // OPCODE: EX9E
 void instructions::skipIfPressed(size_t x, Keyboard& keyboard, CPU& cpu)
 {
-    if(keyboard.isKeyHeldDown(x))
+    if(keyboard.isKeyHeldDown(cpu.getV(x) & 0xF))
         cpu.nextInstruction();
 }
 
 // OPCODE: EXA1
 void instructions::skipIfNotPressed(size_t x, Keyboard& keyboard, CPU& cpu)
 {
-    if(!keyboard.isKeyHeldDown(x))
+    if(!keyboard.isKeyHeldDown(cpu.getV(x) & 0xF))
         cpu.nextInstruction();
 }
 
-// OPCODE: FX15
+// OPCODE: FX0A
 void instructions::getKey(size_t x,Keyboard& keyboard, CPU& cpu)
 {
-    // Not checked yet just go back, basically not pressed
+    for (uint8_t key = 0; key < KEY_COUNT; key++)
+    {
+        if (keyboard.isKeyReleased(key))
+        {
+            cpu.setV(x, key);
+            return;
+        }
+    }
     cpu.lastInstruction();
 }

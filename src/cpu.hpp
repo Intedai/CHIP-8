@@ -23,7 +23,7 @@ constexpr int MEMORY_SIZE = 0x1000;
 constexpr int REGISTER_COUNT = 0x10;
 constexpr int START_ADDRESS = 0x200;
 constexpr int FONT_SIZE = 0x50;
-constexpr int STARTING_IPF = 10; 
+constexpr int STARTING_IPF = 100; 
 
 constexpr std::array<uint8_t, FONT_SIZE> fontSet = 
 { 

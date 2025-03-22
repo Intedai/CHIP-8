@@ -21,20 +21,18 @@ void Chip8::run()
             case sf::Event::Closed:
                         screen.window.close();
                         break;
-            case sf::Event::KeyPressed:
-                // do something
-                break;
-            
             default:
                 break;
             }
         }
 
+        keyboard.update();
         cpu.updateTimers();
         
         for(int i = 0; i < cpu.getIPF(); i++)
         {
             cpu.fetchOpcode();
+            cpu.nextInstruction();
             cpu.executeInstruction(screen, keyboard);
         }
 
