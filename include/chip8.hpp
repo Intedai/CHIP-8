@@ -8,6 +8,7 @@
 #include "screen.hpp"
 #include "keyboard.hpp"
 #include "cpu.hpp"
+#include "oscillator.hpp"
 
 constexpr int FPS = 60; 
 const sf::Time cycleTime = sf::milliseconds(1000/FPS);
@@ -17,6 +18,7 @@ class Chip8 {
         Screen screen;
         CPU cpu;
         Keyboard keyboard;
+        Oscillator oscillator;
     public:
         Chip8(std::string_view fileName,sf::RenderWindow& windowRef);
         void run();

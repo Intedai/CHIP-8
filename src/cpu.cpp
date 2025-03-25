@@ -21,15 +21,15 @@ void CPU::fetchOpcode()
     opcode = memory[pc] << BYTE_SIZE | memory[pc + 1];
 }
 
-void CPU::updateTimers()
+void CPU::updateTimers(Oscillator& oscillator)
 {
     if (soundTimer > 0)
     {
         soundTimer--;
-        // Sound placeholder
-        std::cout << "BEEP";
-        std::cout << "\a";
+        oscillator.playBeepSound();
     }
+    else
+        oscillator.stopBeepSound();
 
     if (delayTimer > 0)
         delayTimer--;

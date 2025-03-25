@@ -11,6 +11,7 @@
 #include "instructions.hpp"
 #include "screen.hpp"
 #include "keyboard.hpp"
+#include "oscillator.hpp"
 #include "globals.hpp"
 
 #define X() ((opcode & 0x0F00) >> BYTE_SIZE)
@@ -64,7 +65,7 @@ class CPU {
         CPU(std::string_view fileName);
 
         void fetchOpcode();
-        void updateTimers();
+        void updateTimers(Oscillator& oscillator);
         ipfSignal executeInstruction(Screen& screen, Keyboard& keyboard);
         
         uint16_t getPC();

@@ -3,7 +3,8 @@
 Chip8::Chip8(std::string_view fileName,sf::RenderWindow& windowRef)
     : screen(windowRef),
       cpu(fileName),
-      keyboard()
+      keyboard(),
+      oscillator()
 {
     
 }
@@ -29,7 +30,7 @@ void Chip8::run()
         }
 
         keyboard.update();
-        cpu.updateTimers();
+        cpu.updateTimers(oscillator);
         
         for(int i = 0; i < cpu.getIPF(); i++)
         {
