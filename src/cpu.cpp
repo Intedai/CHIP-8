@@ -35,7 +35,7 @@ void CPU::updateTimers()
         delayTimer--;
 }
 
-void CPU::executeInstruction(Screen& screen, Keyboard& keyboard)
+ipfSignal CPU::executeInstruction(Screen& screen, Keyboard& keyboard)
 {
     switch (opcode & 0xF000)
     {
@@ -145,6 +145,7 @@ void CPU::executeInstruction(Screen& screen, Keyboard& keyboard)
             break;
         case 0xD000:
             instructions::drawSprite(N(),X(),Y(), screen, *this);
+            return stopLoop;
             break;
         case 0xE000:
             switch (opcode & 0x00FF)
@@ -203,6 +204,7 @@ void CPU::executeInstruction(Screen& screen, Keyboard& keyboard)
             
             break;
     }
+    return continueLoop;
 }
 
 void CPU::loadFontSet()
@@ -217,6 +219,11 @@ void CPU::loadGameToMem(std::string_view fileName)
 {
     // Start from the end to get the size
     std::ifstream inFile(fileName.data(), std::ios::ate);
+    if(!inFile.good())
+    {
+        std::cerr << "ERROR: File does not exist!" << std::endl;
+        std::exit(1);
+    }
 
     if (!inFile)
     {

@@ -21,6 +21,8 @@ void Chip8::run()
             case sf::Event::Closed:
                         screen.window.close();
                         break;
+            case sf::Event::Resized:
+                break;
             default:
                 break;
             }
@@ -33,10 +35,13 @@ void Chip8::run()
         {
             cpu.fetchOpcode();
             cpu.nextInstruction();
-            cpu.executeInstruction(screen, keyboard);
+
+            // Only allow one draw instruction per frame
+            if (cpu.executeInstruction(screen, keyboard) == stopLoop)
+                break;
         }
 
-        screen.window.clear(); // <==== I Dont think it's needed but here incase im wrong
+        screen.window.clear();
         screen.render();
 
         sf::Time elapsed = clock.getElapsedTime();
@@ -44,6 +49,5 @@ void Chip8::run()
         if (cycleTime > elapsed)
             sf::sleep(cycleTime - elapsed);
         clock.restart();
-
     }
 }

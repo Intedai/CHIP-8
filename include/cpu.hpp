@@ -65,7 +65,7 @@ class CPU {
 
         void fetchOpcode();
         void updateTimers();
-        void executeInstruction(Screen& screen, Keyboard& keyboard);
+        ipfSignal executeInstruction(Screen& screen, Keyboard& keyboard);
         
         uint16_t getPC();
         void setPC(uint16_t value);

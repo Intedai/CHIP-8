@@ -7,5 +7,6 @@ constexpr int WIDTH = 64;
 constexpr int HEIGHT = 32;
 constexpr int NIBBLE_SIZE = 4;
 constexpr int BYTE_SIZE = 8;
+enum ipfSignal {continueLoop, stopLoop};
 
 #endif
