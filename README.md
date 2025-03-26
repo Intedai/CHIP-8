@@ -1,17 +1,16 @@
 
-# CHIP8 EMULATOR
+# CHIP-8 EMULATOR
 
 ## Tech Stack
-Using C++ and sfml for graphics (and audio in the future)
+Using C++ and sfml for graphics and audio
 
 ## Compilation
-`g++ -Wall -Wextra src/chip8.cpp src/cpu.cpp src/instructions.cpp src/main.cpp src/screen.cpp src/keyboard.cpp src/oscillator.cpp -o ch8emu -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -I include`
-
-I decided on going with makefile, next commit will probably be the new Makefile.
+Open the shell and run `make` then write `CHIP-8` to see how to use the emulator
 
 ## Tests
 Tests are taken from [Timendus/chip8-test-suite](https://github.com/Timendus/chip8-test-suite) 
-Only the random number test is taken from [mattmikolay/chip-8](https://github.com/mattmikolay/chip-8)
+Only the random number test is taken from [mattmikolay/chip-8](https://github.com/mattmikolay/chip-8)  
+
 TESTS PASSED:
 
  - [x] `1-chip8-logo.ch8`
@@ -21,3 +20,4 @@ TESTS PASSED:
  - [x] `5-quirks.ch8`
  - [x] `6-keypad.ch8`
  - [x] `7-beep.ch8`
+ - [x] `random_number_test.ch8`

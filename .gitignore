@@ -37,7 +37,7 @@
 *.hex
 
 # Executable in linux
-ch8emu
+CHIP-8
 
 # Debug files
 *.dSYM/
