@@ -1,6 +1,13 @@
 
 # CHIP-8 EMULATOR
 
+## Playing Tetris using this emulator:
+
+
+https://github.com/user-attachments/assets/0ea58e7f-4b57-4eb0-855a-e72245465b4a
+
+
+
 ## Tech Stack
 Using C++ and sfml for graphics and audio
 
