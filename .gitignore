@@ -28,6 +28,9 @@
 *.so.*
 *.dylib
 
+# Build
+build
+
 # Executables
 *.exe
 *.out
@@ -35,9 +38,6 @@
 *.i*86
 *.x86_64
 *.hex
-
-# Executable in linux
-CHIP-8
 
 # Debug files
 *.dSYM/

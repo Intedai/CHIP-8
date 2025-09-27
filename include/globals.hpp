@@ -1,5 +1,6 @@
 #ifndef GLOBALS
 #define GLOBALS
+
 #define COLOR_ON sf::Color(36, 82, 59)
 #define COLOR_OFF sf::Color(18, 32, 32)
 

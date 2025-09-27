@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
     if (argc == 2)
     {
         rom = std::string(argv[1]);
-        if (std::filesystem::path(rom).extension() != std::string(".ch8"))
+        if (std::filesystem::path(rom).extension() != ".ch8")
         {
             std::cerr << "ERROR: File extension must be .ch8" << std::endl;
             return 1;

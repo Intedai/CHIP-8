@@ -9,6 +9,7 @@
 #include "keyboard.hpp"
 #include "cpu.hpp"
 #include "oscillator.hpp"
+#include "configLoader.hpp"
 
 constexpr int FPS = 60; 
 const sf::Time cycleTime = sf::milliseconds(1000/FPS);

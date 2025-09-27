@@ -6,7 +6,7 @@ Chip8::Chip8(std::string_view fileName,sf::RenderWindow& windowRef)
       keyboard(),
       oscillator()
 {
-    
+    ConfigLoader::load("config.toml", keyboard);
 }
 
 void Chip8::run()

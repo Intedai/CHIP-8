@@ -12,7 +12,17 @@ https://github.com/user-attachments/assets/0ea58e7f-4b57-4eb0-855a-e72245465b4a
 Using C++ and sfml for graphics and audio
 
 ## Compilation
-Open the shell and run `make` then write `CHIP-8` to see how to use the emulator
+For linux:
+```
+sudo apt update  
+sudo apt install libflac-dev libopenal-dev libvorbis-dev
+```
+then
+`mkdir build`
+`cd build`
+`cmake ..`
+`cmake --build .`  
+It's supposed to work on windows as well but I haven't tested feel free to make an issue / pr  
 
 ## Tests
 Tests are taken from [Timendus/chip8-test-suite](https://github.com/Timendus/chip8-test-suite) 

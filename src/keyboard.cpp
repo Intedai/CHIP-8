@@ -5,6 +5,12 @@ Keyboard::Keyboard()
       keysLastFrame{}
 {
 }
+
+void Keyboard::setKeybind(int index, sf::Keyboard::Key key)
+{
+    keybinds[index] = key;
+}
+
 void Keyboard::update()
 {
     // Deep copy
@@ -12,69 +18,10 @@ void Keyboard::update()
 
     keys.fill(0);
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
+    for (int i = 0; i < KEY_COUNT; i++)
     {
-        keys[1] = 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
-    {
-        keys[2] = 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
-    {
-        keys[3] = 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4))
-    {
-        keys[0xC] = 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-    {
-        keys[4] = 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-    {
-        keys[5] = 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-    {
-        keys[6] = 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-    {
-        keys[0xD] = 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-    {
-        keys[7] = 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-    {
-        keys[8] = 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-    {
-        keys[9] = 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
-    {
-        keys[0xE] = 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
-    {
-        keys[0xA] = 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
-    {
-        keys[0] = 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
-    {
-        keys[0xB] = 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))
-    {
-        keys[0xF] = 1;
+        if (sf::Keyboard::isKeyPressed(keybinds[i]))
+            keys[i] = 1;
     }
 
     //debug
